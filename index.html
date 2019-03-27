@@ -3,7 +3,34 @@
         
     </head>
     <body>
+        <button id='rockBtn'>Rock</button>
+        <button id='paperBtn'>Paper</button>
+        <button id='scissorsBtn'>Scissors</button>
+        <div id='round'></div>
+        <div id='scores'></div>
+        <div id='results'></div>
+
         <script>
+            var pScore = 0
+            var cScore = 0
+            var rCount = 0
+            
+            const writeResults = document.querySelector('#results')
+            const scoresGoHere = document.querySelector('#scores')
+
+            pCounter = document.createElement('div')
+            pCounter.classList.add('pScoreCounter')
+            pCounter.textContent = 'Player score: ' + pScore
+            scoresGoHere.appendChild(pCounter);
+
+            cCounter = document.createElement('div')
+            cCounter.classList.add('pScoreCounter')
+            cCounter.textContent = 'Computer score: ' + cScore
+            scoresGoHere.appendChild(cCounter);
+
+            rCounter = document.querySelector('#round')
+            rCounter.textContent = 'Round: ' + rCount
+
             function computerPlay(){
                 const answers = ['Rock','Paper','Scissors']
                 var computerResult = answers[Math.floor(Math.random() * answers.length)];
@@ -12,28 +39,53 @@
 
             function playRound(computerResult,playerResult){
 
+                if(pScore == 5 || cScore == 5){
+                    pScore = 0
+                    cScore = 0
+                    rCount = 0
+                }
+        
                 var compChoose = computerResult.toLowerCase()
                 var playerChoose = playerResult.toLowerCase()
 
                 if((playerChoose == 'rock' && compChoose == 'scissors') || (playerChoose == 'paper' && compChoose == 'rock') || ( playerChoose == 'scissors' && compChoose == 'paper' )){
-                    console.log('You win! ' + playerResult + ' beats ' + computerResult)
-                    return 'playerwin'
+                    writeResults.textContent = 'You win! ' + playerResult + ' beats ' + computerResult
+                    pScore++
                 }
                 else if((compChoose == 'rock' && playerChoose == 'scissors') || (compChoose == 'paper' && playerChoose == 'rock') || ( compChoose == 'scissors' && playerChoose == 'paper' )){
-                    console.log('Computer wins! ' + computerResult + ' beats ' + playerResult)
-                    return 'cpuwin'
+                    writeResults.textContent = 'Computer wins! ' + computerResult + ' beats ' + playerResult
+                    cScore++
                 }
                 else if(compChoose == playerChoose){
-                    console.log('Tie!')
-                    return 'tie'
+                    writeResults.textContent = 'Tie! ' + playerResult + ' and ' + computerResult
                 }
-                else{
-                    console.log('Stop cheating!')
-                    return 'cheat'
+                pCounter.textContent = 'Player score: ' + pScore
+                cCounter.textContent = 'Computer score: ' + cScore
+                rCount++
+                rCounter.textContent = 'Round: ' + rCount
+
+                if(pScore == 5){
+                    writeResults.textContent = 'You win!'
                 }
+                else if(cScore == 5){
+                    writeResults.textContent = 'You lose!'
+                }
+
             }
 
-            function game(){
+            document.getElementById('rockBtn').addEventListener("click", function(){
+                playRound(computerPlay(),'rock');
+            })
+
+            document.getElementById('paperBtn').addEventListener("click", function(){
+                playRound(computerPlay(),'paper');
+            })
+
+            document.getElementById('scissorsBtn').addEventListener("click", function(){
+                playRound(computerPlay(),'scissors');
+            })
+
+            /*function game(){
                 var roundCount = 0
                 var playerScore = 0
                 var cpuScore = 0
@@ -66,7 +118,7 @@
                     return 'You lose ' + cpuScore + ' to ' + playerScore
                 }
                 
-            }
+            }*/
 
         </script>
     </body>
